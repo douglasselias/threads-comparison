@@ -306,7 +306,7 @@
           <div class="row">
             <div class="col-5 title">
               <h3>
-                06/12/2023 | JÓ 22-24
+                {{.Week}} | {{.BibleText}}
               </h3>
             </div>
             <div class="col-2 function">
@@ -342,7 +342,125 @@
           </div>
         </div>
 
-        
+        <div class="treasures container">
+          <div class="row">
+            <div class="col-5 title">
+              <h3>TESOUROS DA PALAVRA DE DEUS</h3>
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>{{.MainDiscourse}}</span>
+            </div>
+            <div class="col-2 function">
+              <span></span>
+            </div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Joias espirituais: (10 min)</span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Leitura da Bíblia: (4 min ou menos) </span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+        </div>
+
+        <div class="apply container">
+          <div class="row">
+            <div class="col-5 title">
+              <h3>FAÇA SEU MELHOR NO MINISTÉRIO</h3>
+            </div>
+          </div>
+
+          {{range .Ministry}}
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>{{.}}</span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          {{end}}
+        </div>
+
+        <div class="living container">
+          <div class="row">
+            <div class="col-5 title">
+              <h3>NOSSA VIDA CRISTÃ</h3>
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Cântico {{.MiddleSong}}</span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+              <span></span>
+            </div>
+          </div>
+    
+          {{range .ChristianLife}}
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>{{.}}</span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          {{end}}
+    
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Estudo bíblico de congregação: (30 min) </span>
+            </div>
+            <div class="col-2 function">
+              <span> Dirigente e Leitor:</span>
+            </div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Comentários finais (3 min) </span>
+            </div>
+            <div class="col-2 function">
+              <span></span>
+            </div>
+            <div class="col-5">
+              <span></span>
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Cântico {{.EndSong}} e oração</span>
+            </div>
+            <div class="col-2 function">
+              <span>Oração:</span>
+            </div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

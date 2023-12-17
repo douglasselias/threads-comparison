@@ -34,10 +34,26 @@ func parseBody(body io.Reader) ([]map[string]string, error) {
 
 	var search func(*html.Node)
 	search = func(n *html.Node) {
-		if n.Type == html.ElementNode && (n.Data == "h3" || n.Data == "p") {
+		if n.Type == html.ElementNode && (n.Data == "h3" || n.Data == "p" || n.Data == "h2" || n.Data == "h1") {
 			text := strings.TrimSpace(html.UnescapeString(renderText(n)))
 
-			if n.Data == "h3" {
+			if n.Data == "h1" {
+				for _, attr := range n.Attr {
+					if attr.Key == "id" && attr.Val == "p1" {
+						currentResult = make(map[string]string)
+						results = append(results, currentResult)
+						currentResult[n.Data] = text
+					}
+				}
+			} else if n.Data == "h2" {
+				for _, attr := range n.Attr {
+					if attr.Key == "id" && attr.Val == "p2" {
+						currentResult = make(map[string]string)
+						results = append(results, currentResult)
+						currentResult[n.Data] = text
+					}
+				}
+			} else if n.Data == "h3" {
 				// If current node is h3, create a new result entry
 				currentResult = make(map[string]string)
 				results = append(results, currentResult)
@@ -87,6 +103,8 @@ func main() {
 	}
 
 	type Meeting struct {
+		Week          string
+		BibleText     string
 		StartSong     string
 		MainDiscourse string
 		Ministry      []string
@@ -96,6 +114,8 @@ func main() {
 	}
 
 	meeting := Meeting{
+		Week:          "",
+		BibleText:     "",
 		StartSong:     "",
 		MainDiscourse: "",
 		Ministry:      []string{},
@@ -107,6 +127,14 @@ func main() {
 	afterMiddleSong := false
 
 	for _, result := range results {
+		if result["h1"] != "" {
+			meeting.Week = result["h1"]
+		}
+		if result["h2"] != "" {
+			meeting.BibleText = result["h2"]
+		}
+		// meeting.BibleText = result["h2"]
+
 		title := result["h3"]
 		time := result["p"]
 		parts := strings.Split(title, ".")
@@ -150,12 +178,26 @@ func main() {
 		}
 	}
 
-	// fmt.Println(meeting)
+	fmt.Println(meeting)
 
 	/// ---------- server ------------ ///
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles("index.html")
+		tmpl, err := template.ParseFiles("form.html")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Execute the template, passing the Page data.
+		err = tmpl.Execute(w, nil)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	})
+
+	http.HandleFunc("/pdf", func(w http.ResponseWriter, r *http.Request) {
+		tmpl, err := template.ParseFiles("pdf.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
