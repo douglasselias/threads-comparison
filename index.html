@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    :root {
+      --treasurescolor: #626262;
+      --applycolor: #c48430;
+      --livingcolor: #942926;
+      --titlefont: font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .col-1 {
+      width: 8.33%;
+    }
+
+    .col-2 {
+      width: 16.66%;
+    }
+
+    .col-3 {
+      width: 25%;
+    }
+
+    .col-4 {
+      width: 33.33%;
+    }
+
+    .col-5 {
+      width: 41.66%;
+    }
+
+    .col-6 {
+      width: 50%;
+    }
+
+    .col-7 {
+      width: 58.33%;
+    }
+
+    .col-8 {
+      width: 66.66%;
+    }
+
+    .col-9 {
+      width: 75%;
+    }
+
+    .col-10 {
+      width: 83.33%;
+    }
+
+    .col-11 {
+      width: 91.66%;
+    }
+
+    .col-12 {
+      width: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    body {
+      height: auto;
+      width: auto;
+    }
+
+    h2 {
+      padding-top: 5%;
+      text-align: center;
+      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+      font-size: 0.75rem;
+    }
+
+    h3 {
+      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .meetings {
+      display: flex;
+      flex-direction: column;
+      align-content: space-around;
+      height: 80%;
+    }
+
+    span {
+      vertical-align: text-top;
+      padding-left: 0.1rem;
+      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+      font-weight: 400;
+      font-size: 0.80rem;
+    }
+
+    .decoration::before {
+      content: "";
+      display: inline-block;
+      margin-right: 0.15rem;
+      margin-left: 0.5rem;
+      margin-bottom: auto;
+      margin-top: 0.25rem;
+      width: 0.4rem;
+      height: 0.4rem;
+      -moz-border-radius: 7.5px;
+      -webkit-border-radius: 7.5px;
+      border-radius: 7.5px;
+      background-color: var(--treasurescolor);
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      width: 210mm;
+      height: 297mm;
+      background-color: whitee;
+    }
+
+    .page h1 {
+      font-size: 1.5rem;
+      color: black;
+      text-align: center;
+      padding-top: 4rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .page .container {
+      width: 96%;
+      margin: auto;
+    }
+
+    .page .container .row {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .page .container .title {
+      margin-bottom: 0.2rem;
+    }
+
+    .page .meeting {
+      margin-top: 2%;
+      margin-left: auto;
+      margin-bottom: 3%;
+      margin-right: auto;
+      padding-bottom: 5%;
+    }
+
+    .page .meeting .function {
+      font-size: 0.7rem;
+    }
+
+    .page .meeting .overview {
+      height: auto;
+      margin: auto;
+      margin-bottom: 0.4rem;
+    }
+
+    .page .meeting .treasures {
+      margin-bottom: 0.4rem;
+    }
+
+    .page .meeting .treasures .title {
+      background-color: var(--treasurescolor);
+    }
+
+    .page .meeting .treasures .title h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      padding-left: 2rem;
+    }
+
+    .page .meeting .apply {
+      margin-bottom: 0.4rem;
+    }
+
+    .page .meeting .apply .decoration::before {
+      background-color: var(--applycolor);
+    }
+
+    .page .meeting .apply .title {
+      background-color: var(--applycolor);
+    }
+
+    .page .meeting .apply .title h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      padding-left: 2rem;
+    }
+
+    .page .meeting .living {
+      margin-bottom: 0.4rem;
+    }
+
+    .page .meeting .living .decoration::before {
+      background-color: var(--livingcolor);
+    }
+
+    .page .meeting .living .title {
+      background-color: var(--livingcolor);
+    }
+
+    .page .meeting .living .title h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: white;
+      padding-left: 2rem;
+    }
+
+    form {
+      color: #494949;
+      padding-top: 43px;
+      margin: auto;
+      border: solid 1px gray;
+      width: 300px;
+      height: 200px;
+      border-radius: 10px;
+      font-family: NotoSans, Arial, 'Arial Unicode MS', sans-serif;
+    }
+
+    form:hover {
+      border: solid 1px #4caf50;
+    }
+
+    label {
+      padding-left: 10%;
+      display: block;
+      width: 80%;
+    }
+
+    form input {
+      cursor: pointer;
+      display: block;
+      margin: auto;
+      width: 80%;
+      font-family: NotoSans, Arial, 'Arial Unicode MS', sans-serif;
+      border: solid 1px #8e918e;
+    }
+
+    input {
+      width: 100%;
+      background-color: transparent;
+      cursor: pointer;
+      caret-color: var(--treasurescolor);
+      padding-left: 5px;
+      border: 0px;
+      border-left: 1px solid var(--treasurescolor);
+    }
+
+    input:focus {
+      outline: none;
+      background-color: white;
+    }
+
+    button {
+      cursor: pointer;
+      display: block;
+      margin: auto;
+      background-color: #317733;
+      border: none;
+      color: white;
+      margin-top: 3%;
+      padding: 5px 12px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #4bf351;
+    }
+
+    @media print {
+      input {
+        border: 0;
+        background-color: transparent;
+      }
+
+      form {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <h1>Programação da Reunião do Meio de Semana</h1>
+    <div class="meetings">
+      <div class="meeting container">
+        <div class="overview container">
+          <div class="row">
+            <div class="col-5 title">
+              <h3>
+                06/12/2023 | JÓ 22-24
+              </h3>
+            </div>
+            <div class="col-2 function">
+              <span>Presidente:</span>
+            </div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+          <div class="row decoration">
+            <div class="col-5 description">
+              <span>Cântico {{.StartSong}} e oração</span>
+            </div>
+            <div class="col-2 function">
+              <span>Oração:</span>
+            </div>
+            <div class="col-5">
+              <input />
+            </div>
+          </div>
+
+          <div class="row decoration">
+
+            <div class="col-5 description">
+              <span>Comentários iniciais (1 min)</span>
+            </div>
+            <div class="col-2 function">
+              <span></span>
+            </div>
+            <div class="col-5">
+              <span></span>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
