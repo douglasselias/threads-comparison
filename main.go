@@ -12,6 +12,17 @@ import (
 	"golang.org/x/net/html"
 )
 
+type Meeting struct {
+	Week          string
+	BibleText     string
+	StartSong     string
+	MainDiscourse string
+	Ministry      []string
+	MiddleSong    string
+	ChristianLife []string
+	EndSong       string
+}
+
 func renderText(n *html.Node) string {
 	var text string
 	if n.Type == html.TextNode {
@@ -73,46 +84,9 @@ func parseBody(body io.Reader) ([]map[string]string, error) {
 	return results, nil
 }
 
-func main() {
-	// @todo: generate url on request
-	// year := 2024
-	// monthTuple := (jan, fev)
-	// month := jan
-	// week := (1 7)
-	url := "https://www.jw.org/pt/biblioteca/jw-apostila-do-mes/janeiro-fevereiro-2024-mwb/Programa%C3%A7%C3%A3o-da-Reuni%C3%A3o-Vida-e-Minist%C3%A9rio-para-1-%E2%81%A07-de-janeiro-de-2024/"
+var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("Error creating request:", err)
-		return
-	}
-
-	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36")
-	client := http.Client{}
-	response, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error sending request:", err)
-		return
-	}
-	defer response.Body.Close()
-
-	results, err := parseBody(response.Body)
-	if err != nil {
-		fmt.Println("Error on parsing body:", err)
-		return
-	}
-
-	type Meeting struct {
-		Week          string
-		BibleText     string
-		StartSong     string
-		MainDiscourse string
-		Ministry      []string
-		MiddleSong    string
-		ChristianLife []string
-		EndSong       string
-	}
-
+func getMeeting(url string) Meeting {
 	meeting := Meeting{
 		Week:          "",
 		BibleText:     "",
@@ -124,6 +98,24 @@ func main() {
 		EndSong:       "",
 	}
 
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+	}
+
+	req.Header.Set("User-Agent", userAgent)
+	client := http.Client{}
+	response, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error sending request:", err)
+	}
+	defer response.Body.Close()
+
+	results, err := parseBody(response.Body)
+	if err != nil {
+		fmt.Println("Error on parsing body:", err)
+	}
+
 	afterMiddleSong := false
 
 	for _, result := range results {
@@ -133,7 +125,6 @@ func main() {
 		if result["h2"] != "" {
 			meeting.BibleText = result["h2"]
 		}
-		// meeting.BibleText = result["h2"]
 
 		title := result["h3"]
 		time := result["p"]
@@ -178,9 +169,95 @@ func main() {
 		}
 	}
 
-	fmt.Println(meeting)
+	return meeting
+}
 
-	/// ---------- server ------------ ///
+func getMeetings(date string) []Meeting {
+	months := []string{
+		":)",
+		"janeiro",
+		"fevereiro",
+		"marco",
+		"abril",
+		"maio",
+		"junho",
+		"julho",
+		"agosto",
+		"setembro",
+		"outubro",
+		"novembro",
+		"dezembro",
+	}
+	dateParts := strings.Split(date, "-")
+	year := dateParts[0]
+	month := dateParts[1]
+	baseUrl := "https://www.jw.org/pt/biblioteca/jw-apostila-do-mes/"
+
+	num, _ := strconv.Atoi(month)
+	selectedMonth := months[num]
+	if num%2 == 0 {
+		num -= 1
+	}
+	monthsYear := months[num] + "-" + months[num+1] + "-" + year + "-mwb"
+	url := baseUrl + monthsYear
+
+	reqList, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+	}
+	reqList.Header.Set("User-Agent", userAgent)
+	clientList := http.Client{}
+	responseList, err := clientList.Do(reqList)
+	if err != nil {
+		fmt.Println("Error sending request list:", err)
+	}
+	defer responseList.Body.Close()
+
+	docList, _ := html.Parse(responseList.Body)
+
+	urls := []string{}
+
+	var search func(*html.Node)
+	search = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "a" {
+			text := strings.TrimSpace(html.UnescapeString(renderText(n)))
+
+			hasMonth := false
+			if selectedMonth == "marco" {
+				hasMonth = strings.Contains(text, "março")
+			} else {
+				hasMonth = strings.Contains(text, selectedMonth)
+			}
+
+			if strings.Contains(text, " de ") && !strings.Contains(text, year) && len(n.Attr) == 1 && hasMonth {
+				fmt.Println(text)
+				for _, attr := range n.Attr {
+					if attr.Key == "href" {
+						urls = append(urls, "https://jw.org"+attr.Val)
+					}
+				}
+			}
+		}
+
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			search(c)
+		}
+	}
+
+	search(docList)
+
+	meetings := []Meeting{}
+
+	fmt.Println(urls)
+
+	for _, url := range urls {
+		meetings = append(meetings, getMeeting(url))
+	}
+
+	return meetings
+}
+
+func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("form.html")
 		if err != nil {
@@ -188,7 +265,6 @@ func main() {
 			return
 		}
 
-		// Execute the template, passing the Page data.
 		err = tmpl.Execute(w, nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -203,15 +279,15 @@ func main() {
 			return
 		}
 
-		// Execute the template, passing the Page data.
-		err = tmpl.Execute(w, meeting)
+		date := r.URL.Query().Get("date")
+		meetings := getMeetings(date)
+		err = tmpl.Execute(w, meetings)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	})
 
-	// Start the server on port 8080.
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
