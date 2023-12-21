@@ -7,17 +7,27 @@
       --treasurescolor: #626262;
       --applycolor: #c48430;
       --livingcolor: #942926;
-      --titlefont: font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+      --titlefont: NotoSans, Arial, "Arial Unicode MS", sans-serif;
     }
 
     * {
       box-sizing: border-box;
       padding: 0px;
       margin: 0px;
+      font-family: var(--titlefont);
     }
 
-    .col-1 {
-      width: 8.33%;
+    h2 {
+      padding-top: 5%;
+      text-align: center;
+      font-family: var(--titlefont);
+      font-size: 0.75rem;
+    }
+
+    h3 {
+      font-family: var(--titlefont);
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .col-2 {
@@ -28,64 +38,8 @@
       width: 25%;
     }
 
-    .col-4 {
-      width: 33.33%;
-    }
-
-    .col-5 {
-      width: 41.66%;
-    }
-
     .col-6 {
       width: 50%;
-    }
-
-    .col-7 {
-      width: 58.33%;
-    }
-
-    .col-8 {
-      width: 66.66%;
-    }
-
-    .col-9 {
-      width: 75%;
-    }
-
-    .col-10 {
-      width: 83.33%;
-    }
-
-    .col-11 {
-      width: 91.66%;
-    }
-
-    .col-12 {
-      width: 100%;
-    }
-
-    * {
-      box-sizing: border-box;
-      padding: 0px;
-      margin: 0px;
-    }
-
-    body {
-      height: auto;
-      width: auto;
-    }
-
-    h2 {
-      padding-top: 5%;
-      text-align: center;
-      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
-      font-size: 0.75rem;
-    }
-
-    h3 {
-      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
-      font-weight: 600;
-      font-size: 0.75rem;
     }
 
     .meetings {
@@ -93,14 +47,6 @@
       flex-direction: column;
       align-content: space-around;
       height: 80%;
-    }
-
-    span {
-      vertical-align: text-top;
-      padding-left: 0.1rem;
-      font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
-      font-weight: 400;
-      font-size: 0.80rem;
     }
 
     .decoration::before {
@@ -123,14 +69,13 @@
       flex-direction: column;
       width: 210mm;
       height: 297mm;
-      background-color: whitee;
+      background-color: white;
     }
 
-    .page h1 {
+    h1 {
       font-size: 1.5rem;
-      color: black;
       text-align: center;
-      padding-top: 4rem;
+      padding-top: 2.5rem;
       padding-bottom: 1.5rem;
     }
 
@@ -158,7 +103,7 @@
     }
 
     .page .meeting .function {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
     }
 
     .page .meeting .overview {
@@ -176,7 +121,7 @@
     }
 
     .page .meeting .treasures .title h3 {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: white;
       padding-left: 2rem;
@@ -195,7 +140,7 @@
     }
 
     .page .meeting .apply .title h3 {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: white;
       padding-left: 2rem;
@@ -214,25 +159,14 @@
     }
 
     .page .meeting .living .title h3 {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: white;
       padding-left: 2rem;
     }
 
-    form {
-      color: #494949;
-      padding-top: 43px;
-      margin: auto;
-      border: solid 1px gray;
-      width: 300px;
-      height: 200px;
-      border-radius: 10px;
-      font-family: NotoSans, Arial, 'Arial Unicode MS', sans-serif;
-    }
-
-    form:hover {
-      border: solid 1px #4caf50;
+    .description {
+      padding: 1px 0 0 5px;
     }
 
     label {
@@ -241,47 +175,12 @@
       width: 80%;
     }
 
-    form input {
-      cursor: pointer;
-      display: block;
-      margin: auto;
-      width: 80%;
-      font-family: NotoSans, Arial, 'Arial Unicode MS', sans-serif;
-      border: solid 1px #8e918e;
-    }
-
     input {
-      width: 100%;
-      background-color: transparent;
       cursor: pointer;
-      caret-color: var(--treasurescolor);
       padding-left: 5px;
-      border: 0px;
+      border: 0;
       border-left: 1px solid var(--treasurescolor);
-    }
-
-    input:focus {
-      outline: none;
-      background-color: white;
-    }
-
-    button {
-      cursor: pointer;
-      display: block;
-      margin: auto;
-      background-color: #317733;
-      border: none;
-      color: white;
-      margin-top: 3%;
-      padding: 5px 12px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background-color: #4bf351;
+      border-bottom: 1px solid var(--treasurescolor);
     }
 
     @media print {
@@ -290,8 +189,8 @@
         background-color: transparent;
       }
 
-      form {
-        display: none;
+      .meeting.container:nth-child(even) {
+        page-break-after: always;
       }
     }
   </style>
@@ -305,39 +204,36 @@
       <div class="meeting container">
         <div class="overview container">
           <div class="row">
-            <div class="col-5 title">
-              <h3>
-                {{.Week}} | {{.BibleText}}
-              </h3>
+            <div class="col-6 description" style="font-weight: bold;">
+              {{.Week}} | {{.BibleText}}
             </div>
             <div class="col-2 function">
-              <span>Presidente:</span>
+              Presidente:
             </div>
-            <div class="col-5">
+            <div class="col-3" style="margin-left: 16px;">
               <input />
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Cântico {{.StartSong}} e oração</span>
+            <div class="col-6 description">
+              Cântico {{.StartSong}} e oração
             </div>
             <div class="col-2 function">
-              <span>Oração:</span>
+              Oração:
             </div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
 
           <div class="row decoration">
-
-            <div class="col-5 description">
-              <span>Comentários iniciais (1 min)</span>
+            <div class="col-6 description">
+              Comentários iniciais (1 min)
             </div>
             <div class="col-2 function">
               <span></span>
             </div>
-            <div class="col-5">
+            <div class="col-3">
               <span></span>
             </div>
           </div>
@@ -345,36 +241,36 @@
 
         <div class="treasures container">
           <div class="row">
-            <div class="col-5 title">
+            <div class="col-6 title">
               <h3>TESOUROS DA PALAVRA DE DEUS</h3>
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>{{.MainDiscourse}}</span>
+            <div class="col-6 description">
+              {{.MainDiscourse}}
             </div>
             <div class="col-2 function">
               <span></span>
             </div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Joias espirituais: (10 min)</span>
+            <div class="col-6 description">
+              Joias espirituais: (10 min)
             </div>
             <div class="col-2"></div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Leitura da Bíblia: (4 min ou menos) </span>
+            <div class="col-6 description">
+              Leitura da Bíblia: (4 min ou menos)
             </div>
             <div class="col-2"></div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
@@ -382,18 +278,18 @@
 
         <div class="apply container">
           <div class="row">
-            <div class="col-5 title">
+            <div class="col-6 title">
               <h3>FAÇA SEU MELHOR NO MINISTÉRIO</h3>
             </div>
           </div>
 
           {{range .Ministry}}
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>{{.}}</span>
+            <div class="col-6 description">
+              {{.}}
             </div>
             <div class="col-2"></div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
@@ -402,62 +298,52 @@
 
         <div class="living container">
           <div class="row">
-            <div class="col-5 title">
+            <div class="col-6 title">
               <h3>NOSSA VIDA CRISTÃ</h3>
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Cântico {{.MiddleSong}}</span>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-5">
-              <span></span>
+            <div class="col-6 description">
+              Cântico {{.MiddleSong}}
             </div>
           </div>
-    
+
           {{range .ChristianLife}}
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>{{.}}</span>
+            <div class="col-6 description">
+              {{.}}
             </div>
             <div class="col-2"></div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
           {{end}}
-    
+
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Estudo bíblico de congregação: (30 min) </span>
+            <div class="col-6 description">
+              Estudo bíblico de congregação: (30 min)
             </div>
             <div class="col-2 function">
-              <span> Dirigente e Leitor:</span>
+              Dirigente e Leitor:
             </div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Comentários finais (3 min) </span>
-            </div>
-            <div class="col-2 function">
-              <span></span>
-            </div>
-            <div class="col-5">
-              <span></span>
+            <div class="col-6 description">
+              Comentários finais (3 min)
             </div>
           </div>
           <div class="row decoration">
-            <div class="col-5 description">
-              <span>Cântico {{.EndSong}} e oração</span>
+            <div class="col-6 description">
+              Cântico {{.EndSong}} e oração
             </div>
             <div class="col-2 function">
-              <span>Oração:</span>
+              Oração:
             </div>
-            <div class="col-5">
+            <div class="col-3">
               <input />
             </div>
           </div>
