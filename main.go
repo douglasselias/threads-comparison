@@ -133,13 +133,13 @@ func getMeeting(url string) Meeting {
 
 		if err == nil && num > 0 && num < 10 {
 			if num == 1 {
-				meeting.MainDiscourse = title
+				meeting.MainDiscourse = title[3:]
 			} else if num > 3 && !afterMiddleSong {
 				parts := strings.Split(time, ")")
-				meeting.Ministry = append(meeting.Ministry, title+" "+parts[0]+")")
+				meeting.Ministry = append(meeting.Ministry, title[3:]+" "+parts[0]+")")
 			} else if num > 3 && afterMiddleSong && !strings.Contains(title, "Estudo bíblico de congregação") {
 				parts := strings.Split(time, ")")
-				meeting.ChristianLife = append(meeting.ChristianLife, title+" "+parts[0]+")")
+				meeting.ChristianLife = append(meeting.ChristianLife, title[3:]+" "+parts[0]+")")
 			}
 		}
 
