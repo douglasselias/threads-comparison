@@ -1,17 +1,17 @@
-# meetings-pdf
+# Threads comparison
 
-[Click here to download the html files](https://github.com/douglasselias/meetings-pdf/archive/refs/tags/second_release.zip)
+This repo is a small experiment to see how each language does multi-threading.
 
-[Click here to download the executable](https://github.com/douglasselias/meetings-pdf/releases/download/second_release/meetings_server_windows.exe)
+The selected languages were C, Go and JavaScript.
 
-Unzip the html files then put the executable inside the folder then start the executable.
+All of them do the same thing, Create a thread to fetch a webpage and write into a file. Then wait all to finish.
 
-Then open [http://localhost:8080](http://localhost:8080)
+Of course JavaScript is not a multi-threaded language but has similar behavior using promises.
 
-or build manually:
+## Conclusion
 
-`go build -o main.exe ./main.go`
+JavaScript has by far the simplest code, followed by Go and C.
 
-if you are using linux you can cross compile to windows:
+JavaScript and Go simplify a lot of the logic behind fetching a webpage and both have built-in functions to do that. C uses a library to handle the fetch and it still quite verbose. Doing without a library would require using sockets. Also, C is the only that it needs a struct to pass the id and the url to the thread function.
 
-`GOOS=windows GOARCH=amd64 go build -o meetings_server_windows.exe ./main.go`
+Despite being very different languages they all share the same structure: a way to create a thread, a collection of threads and a way to join all the threads. None of them is really any harder or any easier than the other (at least in this small code base).
