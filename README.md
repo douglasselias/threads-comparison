@@ -1,12 +1,12 @@
 # Threads comparison
 
-This repo is a small experiment to see how each language does multi-threading.
+This repo is a small experiment to see how each language does multithreading.
 
 The selected languages were C, Go and JavaScript.
 
 All of them do the same thing, Create a thread to fetch a webpage and write into a file. Then wait all to finish.
 
-Of course JavaScript is not a multi-threaded language but has similar behavior using promises.
+One interesting thing to notice is that only C has real threads, managed by the OS, Go and JavaScript doesn't.
 
 ## Conclusion
 
